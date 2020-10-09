@@ -5,14 +5,13 @@ import Header from "./components/Header";
 import Button from "@material-ui/core/Button";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./styles/theme";
+import MainView from "./components/MainView";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      <Button variant="contained" color="primary">
-        Save
-      </Button>
+      <MainView />
     </ThemeProvider>
   );
 }
