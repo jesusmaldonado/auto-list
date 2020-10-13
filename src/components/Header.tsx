@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) =>
       width: "200px",
       height: "60px",
     },
+    header: {
+      height: "80px",
+      borderBottom: `1px solid ${theme.palette.secondary.main}`,
+    },
   })
 );
 export default function Header() {
@@ -23,7 +27,7 @@ export default function Header() {
       position="static"
       color="transparent"
       elevation={0}
-      style={{ height: "80px" }}
+      className={classes.header}
     >
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Box display="flex">
@@ -44,14 +48,14 @@ export default function Header() {
           <Box m={2}>
             <Link href="#" onClick={preventDefault}>
               <Typography color="primary" variant="body2">
-                Purchase
+                My Orders
               </Typography>
             </Link>
           </Box>
           <Box m={2}>
             <Link href="#" onClick={preventDefault}>
               <Typography color="primary" variant="body2">
-                Purchase
+                Sell
               </Typography>
             </Link>
           </Box>

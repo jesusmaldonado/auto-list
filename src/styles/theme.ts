@@ -7,6 +7,7 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: "#EDEDED",
+      contrastText: "#000000",
     },
   },
   overrides: {
@@ -15,6 +16,7 @@ const theme = createMuiTheme({
         backgroundColor: "#EA7F2B",
         width: "128px",
         height: "32px",
+        boxShadow: "none",
         "&:focus": {
           backgroundColor: "#D37324",
         },

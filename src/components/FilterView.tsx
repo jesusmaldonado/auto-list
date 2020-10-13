@@ -2,51 +2,45 @@ import React, { useState, useEffect } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
 import Box from "@material-ui/core/Box";
 import { makeStyles, createStyles } from "@material-ui/core";
 import theme from "../styles/theme";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import {
   BASE_URL_COLORS,
   BASE_URL_MANUFACTURERS,
 } from "../utilities/constants";
+import {
+  Manufacturer,
+  ManufacturerResponse,
+  ColorResponse,
+  FilterViewProps,
+} from "../typings/types";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    filterBox: {
+      border: `1px solid ${theme.palette.secondary.main}`,
+      height: "300px",
+      padding: theme.spacing(1),
+    },
     formControl: {
       margin: theme.spacing(1),
       minWidth: 240,
     },
+    filterButton: {
+      marginLeft: "auto",
+    },
   })
 );
-
-interface ManufacturerCar {
-  name: string;
-}
-interface Manufacturer {
-  name: string;
-  models: ManufacturerCar[];
-}
-interface ColorResponse {
-  colors: string[];
-}
-interface ManufacturerResponse {
-  manufacturers: Manufacturer[];
-}
-
-interface FilterViewProps {
-  handleManufacturerChange: (Manufacturer: string) => void;
-  handleColorChange: (color: string) => void;
-  currentColor: string;
-  currentManufacturer: string;
-}
 
 export default function FilterView({
   handleManufacturerChange,
   handleColorChange,
   currentColor,
   currentManufacturer,
+  handleFilterClicked,
 }: FilterViewProps) {
   const classes = useStyles();
   const [colors, setColors] = useState<string[]>([]);
@@ -74,7 +68,12 @@ export default function FilterView({
     handleManufacturerChange(evt.target.value);
   };
   return (
-    <Box m={3} display="flex" flexDirection="column">
+    <Box
+      m={3}
+      display="flex"
+      flexDirection="column"
+      className={classes.filterBox}
+    >
       <Box>
         <FormControl
           variant="standard"
@@ -88,6 +87,7 @@ export default function FilterView({
           </Box>
           <Select
             variant="outlined"
+            displayEmpty={true}
             value={currentColor}
             onChange={onColorChange}
           >
@@ -120,6 +120,7 @@ export default function FilterView({
           <Select
             variant="outlined"
             value={currentManufacturer}
+            displayEmpty={true}
             onChange={onManufacturerChange}
           >
             <MenuItem value="">
@@ -136,6 +137,18 @@ export default function FilterView({
             ))}
           </Select>
         </FormControl>
+      </Box>
+      <Box className={classes.filterButton} m={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          alignItem="right "
+          onClick={handleFilterClicked}
+        >
+          <Typography color="secondary" variant="subtitle1">
+            Filter
+          </Typography>
+        </Button>
       </Box>
     </Box>
   );

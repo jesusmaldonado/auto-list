@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from "@material-ui/core";
 import theme from "../styles/theme";
 import CardMedia from "@material-ui/core/CardMedia";
 import Box from "@material-ui/core/Box";
-import { ListViewProps } from "../typings/types";
+import { ListViewProps, Situations } from "../typings/types";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -31,8 +31,15 @@ export default function ListView({
   page,
   pageCount,
   handlePages,
+  ...props
 }: ListViewProps) {
   const classes = useStyles();
+  const onPageClick = (evt: React.SyntheticEvent) => {
+    const situation = evt.currentTarget.dataset.linkEffect as Partial<
+      Situations
+    >;
+    handlePages(situation);
+  };
   return (
     <>
       <Box m={3} className={classes.baseBox}>
@@ -50,7 +57,7 @@ export default function ListView({
         <Box mt={3}>
           {cars.map((car) => (
             <Box
-              key={car.stockNumber}
+              key={car.stockNumber + car.mileage.number}
               elevation={0}
               display="flex"
               p={2}
@@ -67,7 +74,7 @@ export default function ListView({
               <Box p={0}>
                 <Box p={0}>
                   <Typography variant="body1" color="primary" component="p">
-                    {car.modelName}
+                    {car.manufacturerName} {car.modelName}
                   </Typography>
                 </Box>
                 <Box p={0}>
@@ -88,14 +95,24 @@ export default function ListView({
             </Box>
           ))}
         </Box>
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" alignItems="center">
           <Box m={2}>
-            <Link className={classes.link}>
+            <Link
+              className={classes.link}
+              component="button"
+              data-link-effect="first"
+              onClick={onPageClick}
+            >
               <Typography variant="subtitle2">First</Typography>
             </Link>
           </Box>
           <Box m={2}>
-            <Link className={classes.link}>
+            <Link
+              className={classes.link}
+              onClick={onPageClick}
+              data-link-effect="previous"
+              component="button"
+            >
               <Typography variant="subtitle2">Previous</Typography>
             </Link>
           </Box>
@@ -103,12 +120,22 @@ export default function ListView({
             <Typography variant="subtitle2">{`Page ${page} of ${pageCount}`}</Typography>
           </Box>
           <Box m={2}>
-            <Link className={classes.link}>
+            <Link
+              className={classes.link}
+              component="button"
+              data-link-effect="next"
+              onClick={onPageClick}
+            >
               <Typography variant="subtitle2">Next</Typography>
             </Link>
           </Box>
           <Box m={2}>
-            <Link className={classes.link}>
+            <Link
+              className={classes.link}
+              component="button"
+              data-link-effect="last"
+              onClick={onPageClick}
+            >
               <Typography variant="subtitle2">Last</Typography>
             </Link>
           </Box>

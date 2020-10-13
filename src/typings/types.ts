@@ -25,3 +25,25 @@ export interface CarResponseProps {
   totalPageCount: number;
   totalCarsCount: number;
 }
+
+export interface ManufacturerCar {
+  name: string;
+}
+export interface Manufacturer {
+  name: string;
+  models: ManufacturerCar[];
+}
+export interface ColorResponse {
+  colors: string[];
+}
+export interface ManufacturerResponse {
+  manufacturers: Manufacturer[];
+}
+
+export interface FilterViewProps {
+  handleManufacturerChange: (Manufacturer: string) => void;
+  handleColorChange: (color: string) => void;
+  currentColor: string;
+  currentManufacturer: string;
+  handleFilterClicked: () => void;
+}
