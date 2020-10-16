@@ -9,6 +9,7 @@ The project implements a list view, a detail view according to a specified UI sy
 - Caching of requests using `useRef`
 - Transition Fades
 - Node `v10.16.3`
+- Fetching of favorite cars using `localStorage`
 
 ## Available Scripts
 
@@ -33,4 +34,4 @@ Considering the project structure involves multiple requests and a large state o
 - `React.useReducer`
 - `React.useContext`
 
-This would enable the application to have a more extensible infrastructure that could allow for more complex actions and less of the work being done in the `MainView.tsx`
+This would enable the application to have a more extensible infrastructure that could allow for more complex actions and less of the work being done in the `MainView.tsx`. I would also like some more thorough integrations tests mocking requests etc.
