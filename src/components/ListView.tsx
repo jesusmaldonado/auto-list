@@ -49,11 +49,13 @@ export default function ListView({
     >;
     handlePages(situation);
   };
-  const onDetailClick = (car: Car) => {
-    handleDetailClicked(car);
+  const onDetailClick = (evt: React.SyntheticEvent) => {
+    const stockNumber = evt.currentTarget.dataset.stockNumber;
+    const car = cars.find((c) => c.stockNumber === Number(stockNumber));
+    if (car) {
+      handleDetailClicked(car);
+    }
   };
-  console.log(cars);
-  console.log(favoriteCars);
   return (
     <>
       <Box m={3} className={classes.baseBox}>
@@ -85,7 +87,7 @@ export default function ListView({
                   src={car.pictureUrl}
                 ></CardMedia>
               </Box>
-              <Box p={0}>
+              <Box p={0} data-testid="car-name">
                 <Box p={0} display="flex">
                   {favoriteCars[car.stockNumber] && (
                     <Box mr={1}>
@@ -110,7 +112,8 @@ export default function ListView({
                 <Box p={0}>
                   <Link
                     className={classes.link}
-                    onClick={onDetailClick.bind(null, car)}
+                    onClick={onDetailClick}
+                    data-stock-number={car.stockNumber}
                   >
                     <Typography variant="subtitle2">View Details</Typography>
                   </Link>

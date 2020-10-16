@@ -80,7 +80,6 @@ export default function MainView() {
   }, []);
   function checkFavorites() {
     const favorites = localStorage.getItem("favoriteCars");
-    console.log("am i coming here");
 
     if (favorites) {
       setCurrentState((prev) => ({
