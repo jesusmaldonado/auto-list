@@ -46,6 +46,7 @@ export default function FilterView({
   currentColor,
   currentManufacturer,
   handleFilterClicked,
+  ...props
 }: FilterViewProps) {
   const classes = useStyles();
   const [colors, setColors] = useState<string[]>([]);
@@ -78,6 +79,7 @@ export default function FilterView({
       display="flex"
       flexDirection="column"
       className={classes.filterBox}
+      {...props}
     >
       <Box>
         <FormControl

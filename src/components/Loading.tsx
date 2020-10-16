@@ -35,10 +35,11 @@ const useStyles = makeStyles((theme) =>
   })
 );
 const results = Array.from(Array(10).keys());
+///props is needed for fade
 export default function Loading(props) {
   const classes = useStyles();
   return (
-    <Box m={3} className={classes.baseBox}>
+    <Box m={3} className={classes.baseBox} {...props}>
       <Box mb={2}>
         <Typography variant="h6" color="primary">
           Loading

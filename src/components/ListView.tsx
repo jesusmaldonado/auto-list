@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) =>
 export default function ListView({
   cars,
   totalCarsCount,
+  favoriteCars,
   page,
   pageCount,
   handlePages,
@@ -51,6 +52,8 @@ export default function ListView({
   const onDetailClick = (car: Car) => {
     handleDetailClicked(car);
   };
+  console.log(cars);
+  console.log(favoriteCars);
   return (
     <>
       <Box m={3} className={classes.baseBox}>
@@ -83,7 +86,14 @@ export default function ListView({
                 ></CardMedia>
               </Box>
               <Box p={0}>
-                <Box p={0}>
+                <Box p={0} display="flex">
+                  {favoriteCars[car.stockNumber] && (
+                    <Box mr={1}>
+                      <Typography component="span">
+                        {favoriteCars[car.stockNumber] ? "⭑" : ""}
+                      </Typography>
+                    </Box>
+                  )}
                   <Typography variant="body1" color="primary" component="p">
                     {car.manufacturerName} {car.modelName}
                   </Typography>

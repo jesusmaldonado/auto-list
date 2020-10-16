@@ -43,21 +43,21 @@ export default function Header() {
           ></CardMedia>
         </Box>
         <Box display="flex">
-          <Box m={2}>
+          <Box m={3}>
             <Link href="#" onClick={preventDefault}>
               <Typography color="primary" variant="body2">
                 Purchase
               </Typography>
             </Link>
           </Box>
-          <Box m={2}>
+          <Box m={3}>
             <Link href="#" onClick={preventDefault}>
               <Typography color="primary" variant="body2">
                 My Orders
               </Typography>
             </Link>
           </Box>
-          <Box m={2}>
+          <Box m={3}>
             <Link href="#" onClick={preventDefault}>
               <Typography color="primary" variant="body2">
                 Sell

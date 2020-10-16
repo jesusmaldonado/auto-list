@@ -13,6 +13,7 @@ export interface Car {
 
 export type Situations = "first" | "next" | "last" | "previous";
 export interface ListViewProps {
+  favoriteCars: FavoriteCar;
   cars: Car[];
   totalCarsCount: number;
   page: number;
@@ -48,6 +49,10 @@ export interface FilterViewProps {
   handleFilterClicked: () => void;
 }
 
+interface FavoriteCar {
+  [stockNumber: string]: boolean;
+}
+
 export interface StateObject {
   page: number;
   cars: Car[];
@@ -59,4 +64,11 @@ export interface StateObject {
   filterClicked: boolean;
   detailClicked: boolean;
   currentCar?: Car;
+  favoriteCars: FavoriteCar;
+}
+
+export interface DetailViewProps {
+  car: Car;
+  handleSaveClicked: (car: Car) => void;
+  favoriteCars: FavoriteCar;
 }

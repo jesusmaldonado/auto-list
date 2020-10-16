@@ -12,6 +12,7 @@ import Footer from "./Footer";
 import FilterView from "./FilterView";
 import { BASE_URL_CARS } from "../utilities/constants";
 import { Fade, Box } from "@material-ui/core";
+import DetailView from "./DetailView";
 
 const initialState = {
   page: 1,
@@ -24,10 +25,12 @@ const initialState = {
   filterClicked: false,
   detailClicked: false,
   currentCar: null,
+  favoriteCars: {},
 };
 
 export default function MainView() {
   const cache = useRef({});
+
   let [state, setCurrentState] = useState(initialState);
   let {
     page,
@@ -39,6 +42,8 @@ export default function MainView() {
     color,
     filterClicked,
     detailClicked,
+    currentCar,
+    favoriteCars,
   }: StateObject = state;
   useEffect(() => {
     const url = new URL(BASE_URL_CARS);
@@ -66,58 +71,87 @@ export default function MainView() {
     // or on page click
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, filterClicked]);
+  useEffect(() => {
+    window.addEventListener("storage", checkFavorites);
+    checkFavorites();
+    return () => {
+      window.removeEventListener("storage", checkFavorites);
+    };
+  }, []);
+  function checkFavorites() {
+    const favorites = localStorage.getItem("favoriteCars");
+    console.log("am i coming here");
 
+    if (favorites) {
+      setCurrentState((prev) => ({
+        ...prev,
+        favoriteCars: JSON.parse(favorites),
+      }));
+    }
+  }
   var handleDataChange = (data: CarResponseProps) => {
     const { cars, totalPageCount, totalCarsCount } = data;
-    setCurrentState({
-      ...state,
+    setCurrentState((prev) => ({
+      ...prev,
       filterClicked: false,
       loading: false,
       cars,
       totalCarsCount,
       totalPageCount,
-    });
+    }));
   };
 
   const handleColorChange = (color: string) => {
-    setCurrentState({
-      ...state,
+    setCurrentState((prev) => ({
+      ...prev,
       color,
-    });
+    }));
   };
 
   const handleManufacturerChange = (manufacturer: string) => {
-    setCurrentState({
-      ...state,
+    setCurrentState((prev) => ({
+      ...prev,
       manufacturer,
-    });
+    }));
   };
 
   const handleFilterClicked = () => {
-    setCurrentState({
-      ...state,
+    setCurrentState((prev) => ({
+      ...prev,
       page: 1,
       filterClicked: true,
-    });
+    }));
   };
   const handlePages = (situation: Situations) => {
     switch (situation) {
       case "previous":
         if (page - 1 >= 1) {
-          setCurrentState({ ...state, page: page - 1 });
+          setCurrentState((prev) => ({
+            ...prev,
+            page: page - 1,
+          }));
         }
         break;
       case "first":
-        setCurrentState({ ...state, page: 1 });
+        setCurrentState((prev) => ({
+          ...prev,
+          page: 1,
+        }));
         break;
       case "next":
         if (page + 1 <= totalPageCount) {
-          setCurrentState({ ...state, page: page + 1 });
+          setCurrentState((prev) => ({
+            ...prev,
+            page: page + 1,
+          }));
         }
         break;
       case "last":
         if (page !== totalPageCount) {
-          setCurrentState({ ...state, page: totalPageCount });
+          setCurrentState((prev) => ({
+            ...prev,
+            page: totalPageCount,
+          }));
         }
         break;
       default:
@@ -126,27 +160,71 @@ export default function MainView() {
   };
 
   const handleDetailClicked = (car: Car) => {
-    setCurrentState({
-      ...state,
+    setCurrentState((prev) => ({
+      ...prev,
       detailClicked: true,
       currentCar: car,
-    });
+    }));
   };
+
+  const handleSaveClicked = (car: Car) => {
+    if (car) {
+      const favorites = localStorage.getItem("favoriteCars");
+      if (favorites) {
+        let favoriteCars = JSON.parse(favorites);
+        favoriteCars[car.stockNumber] = favoriteCars[car.stockNumber]
+          ? false
+          : true;
+        localStorage.setItem("favoriteCars", JSON.stringify(favoriteCars));
+      } else {
+        localStorage.setItem(
+          "favoriteCars",
+          JSON.stringify({
+            [car.stockNumber]: true,
+          })
+        );
+      }
+    }
+    setCurrentState((prev) => ({
+      ...prev,
+      currentCar: null,
+      detailClicked: false,
+    }));
+    checkFavorites();
+  };
+
   return (
     <>
       <Box display="flex">
         {!detailClicked && (
-          <FilterView
-            handleColorChange={handleColorChange}
-            handleManufacturerChange={handleManufacturerChange}
-            currentColor={color}
-            currentManufacturer={manufacturer}
-            handleFilterClicked={handleFilterClicked}
-          ></FilterView>
+          <Fade
+            in={true}
+            timeout={{
+              appear: 400,
+              enter: 400,
+              exit: 400,
+            }}
+          >
+            <FilterView
+              handleColorChange={handleColorChange}
+              handleManufacturerChange={handleManufacturerChange}
+              currentColor={color}
+              currentManufacturer={manufacturer}
+              handleFilterClicked={handleFilterClicked}
+            ></FilterView>
+          </Fade>
         )}
         {!loading && !detailClicked && (
-          <Fade in={true}>
+          <Fade
+            in={true}
+            timeout={{
+              appear: 200,
+              enter: 200,
+              exit: 100,
+            }}
+          >
             <ListView
+              favoriteCars={favoriteCars}
               cars={cars}
               totalCarsCount={totalCarsCount}
               page={page}
@@ -157,13 +235,31 @@ export default function MainView() {
           </Fade>
         )}
         {loading && (
-          <Fade in={!loading}>
+          <Fade
+            in={true}
+            timeout={{
+              appear: 400,
+              enter: 400,
+              exit: 400,
+            }}
+          >
             <Loading></Loading>
           </Fade>
         )}
-        {!loading && detailClicked && (
-          <Fade in={true}>
-            <div>'Detail View</div>
+        {!loading && detailClicked && currentCar && (
+          <Fade
+            in={true}
+            timeout={{
+              appear: 400,
+              enter: 400,
+              exit: 400,
+            }}
+          >
+            <DetailView
+              car={currentCar}
+              favoriteCars={favoriteCars}
+              handleSaveClicked={handleSaveClicked}
+            ></DetailView>
           </Fade>
         )}
       </Box>
