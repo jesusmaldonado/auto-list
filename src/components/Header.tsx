@@ -8,7 +8,7 @@ import {
   createStyles,
   Typography,
 } from "@material-ui/core";
-
+import { HeaderProps } from "../typings/types";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import theme from "../styles/theme";
 import autologo from "../assets/autologo.jpg";
@@ -24,9 +24,11 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
-export default function Header() {
+export default function Header({ handleLinkClicked }: HeaderProps) {
   const classes = useStyles();
-  const preventDefault = (evt: React.SyntheticEvent) => evt.preventDefault();
+  const onLinkClicked = (evt: React.SyntheticEvent) => {
+    handleLinkClicked(true);
+  };
   return (
     <AppBar
       position="static"
@@ -44,21 +46,21 @@ export default function Header() {
         </Box>
         <Box display="flex">
           <Box m={3}>
-            <Link href="#" onClick={preventDefault}>
+            <Link href="#" onClick={onLinkClicked}>
               <Typography color="primary" variant="body2">
                 Purchase
               </Typography>
             </Link>
           </Box>
           <Box m={3}>
-            <Link href="#" onClick={preventDefault}>
+            <Link href="#" onClick={onLinkClicked}>
               <Typography color="primary" variant="body2">
                 My Orders
               </Typography>
             </Link>
           </Box>
           <Box m={3}>
-            <Link href="#" onClick={preventDefault}>
+            <Link href="#" onClick={onLinkClicked}>
               <Typography color="primary" variant="body2">
                 Sell
               </Typography>

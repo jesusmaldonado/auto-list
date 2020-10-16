@@ -72,3 +72,10 @@ export interface DetailViewProps {
   handleSaveClicked: (car: Car) => void;
   favoriteCars: FavoriteCar;
 }
+
+export interface EmptyPageProps {
+  handleLinkClicked: (val: boolean) => void;
+}
+export interface HeaderProps {
+  handleLinkClicked: (val: boolean) => void;
+}

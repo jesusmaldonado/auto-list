@@ -5,7 +5,6 @@ import {
   createStyles,
   Box,
   Button,
-  TextareaAutosize,
 } from "@material-ui/core";
 import { DetailViewProps } from "../typings/types";
 

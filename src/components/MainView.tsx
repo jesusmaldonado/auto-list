@@ -7,26 +7,11 @@ import {
 } from "../typings/types";
 import Loading from "./Loading";
 import ListView from "./ListView";
-import Footer from "./Footer";
 
 import FilterView from "./FilterView";
-import { BASE_URL_CARS } from "../utilities/constants";
+import { BASE_URL_CARS, initialState } from "../utilities/constants";
 import { Fade, Box } from "@material-ui/core";
 import DetailView from "./DetailView";
-
-const initialState = {
-  page: 1,
-  cars: [],
-  totalPageCount: 0,
-  totalCarsCount: 0,
-  loading: true,
-  manufacturer: "",
-  color: "",
-  filterClicked: false,
-  detailClicked: false,
-  currentCar: null,
-  favoriteCars: {},
-};
 
 export default function MainView() {
   const cache = useRef({});
@@ -262,7 +247,6 @@ export default function MainView() {
           </Fade>
         )}
       </Box>
-      <Footer />
     </>
   );
 }

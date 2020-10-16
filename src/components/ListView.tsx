@@ -10,7 +10,7 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import theme from "../styles/theme";
 
-import { ListViewProps, Situations, Car } from "../typings/types";
+import { ListViewProps, Situations } from "../typings/types";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
