@@ -14,11 +14,11 @@ export interface Car {
 export type Situations = "first" | "next" | "last" | "previous";
 export interface ListViewProps {
   cars: Car[];
-  count: number;
   totalCarsCount: number;
   page: number;
   pageCount: number;
   handlePages: (string: Situations) => void;
+  handleDetailClicked: (car: Car) => void;
 }
 export interface CarResponseProps {
   cars: Car[];
@@ -46,4 +46,17 @@ export interface FilterViewProps {
   currentColor: string;
   currentManufacturer: string;
   handleFilterClicked: () => void;
+}
+
+export interface StateObject {
+  page: number;
+  cars: Car[];
+  totalPageCount: number;
+  totalCarsCount: number;
+  loading: boolean;
+  manufacturer: string;
+  color: string;
+  filterClicked: boolean;
+  detailClicked: boolean;
+  currentCar?: Car;
 }

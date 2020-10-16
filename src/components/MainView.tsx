@@ -1,31 +1,53 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Car, CarResponseProps, Situations } from "../typings/types";
+import {
+  Car,
+  CarResponseProps,
+  Situations,
+  StateObject,
+} from "../typings/types";
 import Loading from "./Loading";
-import Box from "@material-ui/core/Box";
 import ListView from "./ListView";
 import Footer from "./Footer";
 
 import FilterView from "./FilterView";
 import { BASE_URL_CARS } from "../utilities/constants";
-import Fade from "@material-ui/core/Fade";
+import { Fade, Box } from "@material-ui/core";
+
+const initialState = {
+  page: 1,
+  cars: [],
+  totalPageCount: 0,
+  totalCarsCount: 0,
+  loading: true,
+  manufacturer: "",
+  color: "",
+  filterClicked: false,
+  detailClicked: false,
+  currentCar: null,
+};
+
 export default function MainView() {
   const cache = useRef({});
-  let [page, setPage] = useState(1);
-  let [data, setData] = useState<Car[]>([]);
-  let [pageCount, setPageCount] = useState<number>(0);
-  let [totalCarsCount, setCarsCount] = useState<number>(0);
-  let [loading, setLoading] = useState(true);
-  let [currentManufacturer, setCurrentManufacturer] = useState("");
-  let [currentColor, setCurrentColor] = useState("");
-  let [filterClicked, setFilterClicked] = useState(false);
+  let [state, setCurrentState] = useState(initialState);
+  let {
+    page,
+    cars,
+    totalPageCount,
+    totalCarsCount,
+    loading,
+    manufacturer,
+    color,
+    filterClicked,
+    detailClicked,
+  }: StateObject = state;
   useEffect(() => {
     const url = new URL(BASE_URL_CARS);
-    url.searchParams.append("page", page);
-    if (currentColor !== "") {
-      url.searchParams.append("color", currentColor);
+    url.searchParams.append("page", String(page));
+    if (color !== "") {
+      url.searchParams.append("color", color);
     }
-    if (currentManufacturer !== "") {
-      url.searchParams.append("manufacturer", currentManufacturer);
+    if (manufacturer !== "") {
+      url.searchParams.append("manufacturer", manufacturer);
     }
     if (cache.current[url.toString()]) {
       handleDataChange(cache.current[url.toString()]);
@@ -41,78 +63,107 @@ export default function MainView() {
     return () => {};
     // we ignore certain dependencies
     // on purpose because we only want to fetch on filter click
+    // or on page click
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, filterClicked]);
 
   var handleDataChange = (data: CarResponseProps) => {
-    setFilterClicked(false);
-    setLoading(false);
     const { cars, totalPageCount, totalCarsCount } = data;
-    setData(cars);
-    setCarsCount(totalCarsCount);
-    setPageCount(totalPageCount);
+    setCurrentState({
+      ...state,
+      filterClicked: false,
+      loading: false,
+      cars,
+      totalCarsCount,
+      totalPageCount,
+    });
   };
 
   const handleColorChange = (color: string) => {
-    setCurrentColor(color);
+    setCurrentState({
+      ...state,
+      color,
+    });
   };
 
   const handleManufacturerChange = (manufacturer: string) => {
-    setCurrentManufacturer(manufacturer);
+    setCurrentState({
+      ...state,
+      manufacturer,
+    });
   };
 
   const handleFilterClicked = () => {
-    setPage(1);
-    setFilterClicked(true);
+    setCurrentState({
+      ...state,
+      page: 1,
+      filterClicked: true,
+    });
   };
   const handlePages = (situation: Situations) => {
     switch (situation) {
       case "previous":
         if (page - 1 >= 1) {
-          setPage(page - 1);
+          setCurrentState({ ...state, page: page - 1 });
         }
         break;
       case "first":
-        setPage(1);
+        setCurrentState({ ...state, page: 1 });
         break;
       case "next":
-        if (page + 1 <= pageCount) {
-          setPage(page + 1);
+        if (page + 1 <= totalPageCount) {
+          setCurrentState({ ...state, page: page + 1 });
         }
         break;
       case "last":
-        if (page !== pageCount) {
-          setPage(pageCount);
+        if (page !== totalPageCount) {
+          setCurrentState({ ...state, page: totalPageCount });
         }
         break;
       default:
         break;
     }
   };
+
+  const handleDetailClicked = (car: Car) => {
+    setCurrentState({
+      ...state,
+      detailClicked: true,
+      currentCar: car,
+    });
+  };
   return (
     <>
       <Box display="flex">
-        <FilterView
-          handleColorChange={handleColorChange}
-          handleManufacturerChange={handleManufacturerChange}
-          currentColor={currentColor}
-          currentManufacturer={currentManufacturer}
-          handleFilterClicked={handleFilterClicked}
-        ></FilterView>
-        {!loading && (
+        {!detailClicked && (
+          <FilterView
+            handleColorChange={handleColorChange}
+            handleManufacturerChange={handleManufacturerChange}
+            currentColor={color}
+            currentManufacturer={manufacturer}
+            handleFilterClicked={handleFilterClicked}
+          ></FilterView>
+        )}
+        {!loading && !detailClicked && (
           <Fade in={true}>
             <ListView
-              cars={data as Car[]}
-              count={data.length}
+              cars={cars}
               totalCarsCount={totalCarsCount}
               page={page}
-              pageCount={pageCount}
+              pageCount={totalPageCount}
               handlePages={handlePages}
+              handleDetailClicked={handleDetailClicked}
             />
           </Fade>
         )}
         {loading && (
           <Fade in={!loading}>
             <Loading></Loading>
+          </Fade>
+        )}
+        {!loading && detailClicked && (
+          <Fade in={true}>
+            <div>'Detail View</div>
           </Fade>
         )}
       </Box>

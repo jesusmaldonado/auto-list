@@ -1,11 +1,16 @@
 import React from "react";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles, createStyles } from "@material-ui/core";
+import {
+  Link,
+  Typography,
+  makeStyles,
+  createStyles,
+  CardMedia,
+  Box,
+} from "@material-ui/core";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import theme from "../styles/theme";
-import CardMedia from "@material-ui/core/CardMedia";
-import Box from "@material-ui/core/Box";
-import { ListViewProps, Situations } from "../typings/types";
+
+import { ListViewProps, Situations, Car } from "../typings/types";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -24,21 +29,27 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
+
 export default function ListView({
   cars,
-  count,
   totalCarsCount,
   page,
   pageCount,
   handlePages,
+  handleDetailClicked,
+  // NOTE: this is necessary for <Fade> to work
   ...props
 }: ListViewProps) {
+  const count = cars.length;
   const classes = useStyles();
   const onPageClick = (evt: React.SyntheticEvent) => {
     const situation = evt.currentTarget.dataset.linkEffect as Partial<
       Situations
     >;
     handlePages(situation);
+  };
+  const onDetailClick = (car: Car) => {
+    handleDetailClicked(car);
   };
   return (
     <>
@@ -87,7 +98,10 @@ export default function ListView({
                   </Typography>
                 </Box>
                 <Box p={0}>
-                  <Link className={classes.link}>
+                  <Link
+                    className={classes.link}
+                    onClick={onDetailClick.bind(null, car)}
+                  >
                     <Typography variant="subtitle2">View Details</Typography>
                   </Link>
                 </Box>

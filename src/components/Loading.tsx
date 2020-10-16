@@ -1,7 +1,5 @@
 import React from "react";
-import { makeStyles, createStyles } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { Typography, makeStyles, createStyles, Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -37,7 +35,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 const results = Array.from(Array(10).keys());
-export default function Loading() {
+export default function Loading(props) {
   const classes = useStyles();
   return (
     <Box m={3} className={classes.baseBox}>

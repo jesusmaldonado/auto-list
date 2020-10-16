@@ -1,12 +1,17 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
+import {
+  Link,
+  AppBar,
+  CardMedia,
+  Box,
+  makeStyles,
+  createStyles,
+  Typography,
+} from "@material-ui/core";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import theme from "../styles/theme";
-import AppBar from "@material-ui/core/AppBar";
-import CardMedia from "@material-ui/core/CardMedia";
 import autologo from "../assets/autologo.jpg";
-import { makeStyles, createStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) =>
   createStyles({
     media: {

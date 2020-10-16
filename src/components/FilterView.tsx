@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import Box from "@material-ui/core/Box";
-import { makeStyles, createStyles } from "@material-ui/core";
+import {
+  MenuItem,
+  FormControl,
+  Select,
+  Box,
+  makeStyles,
+  createStyles,
+  Typography,
+  Button,
+} from "@material-ui/core";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import theme from "../styles/theme";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import {
   BASE_URL_COLORS,
   BASE_URL_MANUFACTURERS,
@@ -142,7 +147,6 @@ export default function FilterView({
         <Button
           variant="contained"
           color="primary"
-          alignItem="right "
           onClick={handleFilterClicked}
         >
           <Typography color="secondary" variant="subtitle1">
