@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=10.16.2"
   },
+  "homepage": "https://jesusmaldonado.github.io/auto-list",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^4.2.4",
