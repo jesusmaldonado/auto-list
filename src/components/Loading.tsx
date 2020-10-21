@@ -47,14 +47,7 @@ export default function Loading(props) {
       </Box>
       <Box mt={3}>
         {results.map((r, i) => (
-          <Box
-            key={i}
-            elevation={0}
-            display="flex"
-            p={2}
-            mb={2}
-            className={classes.carBox}
-          >
+          <Box key={i} display="flex" p={2} mb={2} className={classes.carBox}>
             <Box mr={3}>
               <Box className={classes.media}></Box>
             </Box>

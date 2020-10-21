@@ -43,13 +43,13 @@ export default function ListView({
 }: ListViewProps) {
   const count = cars.length;
   const classes = useStyles();
-  const onPageClick = (evt: React.SyntheticEvent) => {
+  const onPageClick = (evt: React.SyntheticEvent<HTMLElement>) => {
     const situation = evt.currentTarget.dataset.linkEffect as Partial<
       Situations
     >;
     handlePages(situation);
   };
-  const onDetailClick = (evt: React.SyntheticEvent) => {
+  const onDetailClick = (evt: React.SyntheticEvent<HTMLElement>) => {
     const stockNumber = evt.currentTarget.dataset.stockNumber;
     const car = cars.find((c) => c.stockNumber === Number(stockNumber));
     if (car) {
@@ -74,7 +74,6 @@ export default function ListView({
           {cars.map((car) => (
             <Box
               key={car.stockNumber + car.mileage.number}
-              elevation={0}
               display="flex"
               p={2}
               mb={2}
