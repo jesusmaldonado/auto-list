@@ -75,11 +75,11 @@ export default function MainView() {
   }
   var handleDataChange = (data: CarResponseProps) => {
     const { cars, totalPageCount, totalCarsCount } = data;
-    setCurrentState((prev) => ({
+    setCurrentState((prev: any) => ({
       ...prev,
       filterClicked: false,
       loading: false,
-      cars,
+      cars: cars,
       totalCarsCount,
       totalPageCount,
     }));
@@ -144,7 +144,7 @@ export default function MainView() {
   };
 
   const handleDetailClicked = (car: Car) => {
-    setCurrentState((prev) => ({
+    setCurrentState((prev: any) => ({
       ...prev,
       detailClicked: true,
       currentCar: car,

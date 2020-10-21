@@ -65,13 +65,21 @@ export default function FilterView({
         setManufacturers(manufacturers);
       });
   }, []);
-  const onColorChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const onColorChange = (
+    evt: React.ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
     evt.persist();
-    handleColorChange(evt.target.value);
+    if (evt.target && evt?.target.value) {
+      handleColorChange(String(evt?.target.value));
+    }
   };
-  const onManufacturerChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const onManufacturerChange = (
+    evt: React.ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
     evt.persist();
-    handleManufacturerChange(evt.target.value);
+    if (evt.target && evt?.target.value) {
+      handleManufacturerChange(String(evt?.target.value));
+    }
   };
   return (
     <Box
