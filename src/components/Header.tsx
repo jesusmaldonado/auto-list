@@ -30,7 +30,12 @@ export default function Header({ handleLinkClicked }: HeaderProps) {
     handleLinkClicked(true);
   };
   return (
-    <AppBar position="static" color="transparent" className={classes.header}>
+    <AppBar
+      position="static"
+      color="transparent"
+      elevation={0}
+      className={classes.header}
+    >
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Box display="flex">
           <CardMedia
