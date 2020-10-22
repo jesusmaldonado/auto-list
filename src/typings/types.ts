@@ -63,7 +63,7 @@ export interface StateObject {
   color: string;
   filterClicked: boolean;
   detailClicked: boolean;
-  currentCar?: Car;
+  currentCar: Car | null;
   favoriteCars: FavoriteCar;
 }
 
