@@ -69,15 +69,15 @@ export default function FilterView({
     evt: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
     evt.persist();
-    if (evt.target && evt?.target.value) {
-      handleColorChange(String(evt?.target.value));
+    if (evt.target && typeof evt?.target.value === "string") {
+      handleColorChange(evt?.target.value);
     }
   };
   const onManufacturerChange = (
     evt: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
     evt.persist();
-    if (evt.target && evt?.target.value) {
+    if (evt.target && typeof evt?.target.value === "string") {
       handleManufacturerChange(String(evt?.target.value));
     }
   };
