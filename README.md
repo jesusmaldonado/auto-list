@@ -24,8 +24,10 @@ npm i && npm run start
 ## Tests
 
 ```
-npm run tests
+npm run test
 ```
+
+\*\*Hint: you may have to hit `a` to run all tests
 
 ## Further improvements
 
